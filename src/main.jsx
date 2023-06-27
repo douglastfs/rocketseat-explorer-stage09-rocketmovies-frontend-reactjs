@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Details } from './pages/Details';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from './styles/global';
 
 import theme from './styles/theme'
+
+import { Home } from './pages/Home';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -12,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ThemeProvider theme={theme}>
 
       <GlobalStyle />
-        <Details />
+        <Home />
 
     </ThemeProvider>
 
