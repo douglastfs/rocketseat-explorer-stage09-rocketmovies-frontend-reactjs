@@ -20,6 +20,7 @@ export const Container = styled.div`
     background: transparent;
     border: none;
 
+
     &placeholder {
       color: ${({ theme }) => theme.COLORS.GRAY_300};
     }
