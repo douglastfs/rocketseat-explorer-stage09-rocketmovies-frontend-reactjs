@@ -1,5 +1,7 @@
 import { Container, Links, Content } from './styles';
 
+import { Link } from 'react-router-dom';
+
 import { Tag } from '../../components/Tag'
 import { Button } from '../../components/Button'
 import { Header } from '../../components/Header'
@@ -42,7 +44,8 @@ export function Details() {
               <Tag title="node"/>
             </Section>
 
-            <Button title="Voltar"/>
+            <Button title="Voltar" />
+
 
           </Content>
         </main>

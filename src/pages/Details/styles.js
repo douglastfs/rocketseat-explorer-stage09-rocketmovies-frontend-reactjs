@@ -55,7 +55,7 @@ export const Content = styled.div`
     text-align: justify;
   }
 
-  > button:last-child{
+  > button:last-child {
     margin-top: 100px;
   }
 `;
