@@ -34,12 +34,23 @@ function AuthProvider({ children }){
     setData({});
   }
 
-  async function updateProfile({ user }){
+  async function updateProfile({ user, avatarFile }){
     try{
 
-      await api.put('/users', user);
-      localStorage.setItem('@rocketnotes:user', JSON.stringify(user));
-      setData({ user, token: data.token });
+      if(avatarFile) {
+        const fileUploadForm = new FormData();
+        fileUploadForm.append("avatar", avatarFile);
+
+        const response = await api.patch('/users/avatar', fileUploadForm);
+        user.avatar = response.data.avatar;
+      }
+
+      const { password, old_password, ...userData } = user;
+
+      await api.put('/users', userData);
+
+      localStorage.setItem('@rocketnotes:user', JSON.stringify(userData));
+      setData({ user: userData, token: data.token });
       alert('Perfil atualizado com sucesso!');
 
     } catch {

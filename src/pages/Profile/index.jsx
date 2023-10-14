@@ -3,6 +3,8 @@ import { FiArrowLeft, FiUser, FiMail, FiLock, FiCamera } from 'react-icons/fi';
 import { useState } from 'react';
 import { useAuth } from '../../hooks/auth';
 
+import avatarPlaceholder from '../../assets/avatar_placeholder.svg';
+import { api } from '../../services/api';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 import { Link } from 'react-router-dom';
@@ -17,6 +19,10 @@ export function Profile(){
   const [passwordOld, setPasswordOld] = useState();
   const [passwordNew, setPasswordNew] = useState();
 
+  const avatarUrl = user.avatar ? `${api.defaults.baseURL}/files/${user.avatar}` : avatarPlaceholder;
+  const [avatar, setAvatar] = useState(avatarUrl);
+  const [avatarFile, setAvatarFile] = useState(null);
+
   async function handleUpdate(){
     const user = {
       name,
@@ -24,7 +30,15 @@ export function Profile(){
       password: passwordNew,
       old_password: passwordOld,
     };
-    await updateProfile({ user });
+    await updateProfile({ user, avatarFile });
+  }
+
+  function handleChangeAvatar(event){
+    const file = event.target.files[0];
+    setAvatarFile(file);
+
+    const imagePreview = URL.createObjectURL(file);
+    setAvatar(imagePreview);
   }
 
   return (
@@ -41,7 +55,7 @@ export function Profile(){
 
         <Avatar>
           <img
-          src="https://github.com/douglastfs.png"
+          src={avatarUrl}
           alt="Foto do usuário"
           />
 
@@ -50,6 +64,7 @@ export function Profile(){
             <input
               id="avatar"
               type="file"
+              onChange={handleChangeAvatar}
             />
           </label>
 
@@ -60,7 +75,7 @@ export function Profile(){
           type="text"
           icon={FiUser}
           value={name}
-          onChance={e => setName(e.target.value)}
+          onChange={e => setName(e.target.value)}
         />
 
         <Input
@@ -68,21 +83,21 @@ export function Profile(){
           type="text"
           icon={FiMail}
           value={email}
-          onChance={e => setEmail(e.target.value)}
+          onChange={e => setEmail(e.target.value)}
         />
 
         <Input
           placeholder="Senha Atual"
           type="password"
           icon={FiLock}
-          onChance={e => setPasswordOld(e.target.value)}
+          onChange={e => setPasswordOld(e.target.value)}
         />
 
         <Input
           placeholder="Nova Senha"
           type="password"
           icon={FiLock}
-          onChance={e => setPasswordNew(e.target.value)}
+          onChange={e => setPasswordNew(e.target.value)}
         />
 
         <Button title="Salvar" onClick={handleUpdate} />
